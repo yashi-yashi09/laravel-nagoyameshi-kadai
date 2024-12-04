@@ -7,7 +7,7 @@
                 <h1 class="mb-4 text-center">会員一覧</h1>
 
                 <div class="d-flex justify-content-between align-items-end">
-                    <form method="GET" action="" class="nagoyameshi-admin-search-box mb-3">
+                    <form method="GET" action="{{ route('admin.users.index') }}" class="nagoyameshi-admin-search-box mb-3">
                         <div class="input-group">
                             <input type="text" class="form-control" placeholder="氏名・フリガナで検索" name="keyword" value="{{ $keyword }}">
                             <button type="submit" class="btn text-white shadow-sm nagoyameshi-btn">検索</button>
