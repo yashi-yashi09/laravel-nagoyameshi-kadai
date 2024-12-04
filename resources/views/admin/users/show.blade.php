@@ -6,7 +6,7 @@
             <div class="col-xl-7 col-lg-8 col-md-9">
                 <nav class="mb-4" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                     <ol class="breadcrumb mb-0">
-                        <li class="breadcrumb-item"><a href="{{ url('admin/users/index') }}">会員一覧</a></li>
+                        <li class="breadcrumb-item"><a href="{{ url('admin/users/{user}') }}">会員一覧</a></li>
                         <li class="breadcrumb-item active" aria-current="page">会員詳細</li>
                     </ol>
                 </nav>

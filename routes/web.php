@@ -25,5 +25,5 @@ require __DIR__.'/auth.php';
 Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
     Route::get('home', [Admin\HomeController::class, 'index'])->name('admin.home');
     Route::get('users/index', [Admin\UserController::class, 'index'])->name('admin.users.index'); // 会員一覧ページ
-    Route::get('users/show', [Admin\UserController::class, 'show'])->name('admin.users.show'); 
+    Route::get('users/{user}', [Admin\UserController::class, 'show'])->name('admin.users.show'); 
 });
