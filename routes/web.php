@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\RestaurantController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,8 +23,12 @@ Route::get('/', function () {
 
 require __DIR__.'/auth.php';
 
-Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
-    Route::get('home', [Admin\HomeController::class, 'index'])->name('admin.home');
-    Route::get('users/index', [Admin\UserController::class, 'index'])->name('admin.users.index'); // 会員一覧ページ
-    Route::get('users/{user}', [Admin\UserController::class, 'show'])->name('admin.users.show'); 
+Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'auth:admin'], function () {
+    Route::get('home', [Admin\HomeController::class, 'index'])->name('home');
+
+    Route::resource('users', Admin\UserController::class)->only(['index', 'show']);
+
+    Route::resource('restaurants', Admin\RestaurantController::class);
 });
+
+

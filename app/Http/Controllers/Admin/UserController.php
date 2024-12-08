@@ -9,23 +9,18 @@ use Illuminate\Http\Request;
 class UserController extends Controller
 {
     // 会員一覧ページ
-    public function index(Request $request)
-    {
-        // 検索キーワードの取得
-        $keyword = $request->keyword;
+    public function index(Request $request) {
+        // 検索ボックスに入力されたキーワードを取得する
+        $keyword = $request->input('keyword');
 
-        
-        if ($request->user !== null) {
-            $users = User::where('id', $request->user)->paginate(15);
-        } elseif ($keyword !== null) {
-            $users = User::where('name', 'like', "%{$keyword}%")
-                 ->orWhere('kana', 'like', "%{$keyword}%")
-                 ->paginate(15);
+        // キーワードが存在すれば検索を行い、そうでなければ全件取得する
+        if ($keyword) {
+            $users = User::where('name', 'like', "%{$keyword}%")->orWhere('kana', 'like', "%{$keyword}%")->paginate(15);
         } else {
             $users = User::paginate(15);
         }
 
-        $total = User::count();
+        $total = $users->total();
 
         return view('admin.users.index', compact('users', 'keyword', 'total'));
     }
