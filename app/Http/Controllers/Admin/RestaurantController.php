@@ -45,16 +45,16 @@ class RestaurantController extends Controller
     public function store(Request $request)
     {
              $request->validate([
-            'name' => 'required',
-            'image' => 'image|max:2048',
-            'description' => 'required|numeric|min:0|lte:highest_price',
-            'lowest_price' => 'required|numeric|min:0|gte:lowest_price',
-            'highest_price' => 'required|numeric|digits:7',
-            'postal_code' => ['required', 'string', 'max:255'],
-            'address' => 'required', 
-            'opening_time' => 'required|before:closing_time',
-            'closing_time' => 'required|after:opening_time',
-            'seating_capacity' => 'required|numeric|min:0',
+                'name' => 'required',
+                'image' => 'image|max:2048',
+                'description' => 'required',
+                'lowest_price' => 'required|numeric|min:0|lte:highest_price',
+                'highest_price' => 'required|numeric|min:0|gte:lowest_price',
+                'postal_code' => 'required|numeric|digits:7',
+                'address' => 'required', 
+                'opening_time' => 'required|before:closing_time',
+                'closing_time' => 'required|after:opening_time',
+                'seating_capacity' => 'required|numeric|min:0',
         ]);
 
         $restaurant = new Restaurant();
@@ -109,13 +109,21 @@ class RestaurantController extends Controller
         ]);
 
         
-
+        $restaurant->name = $request->input('name');
         if($request->hasFile('image')) {
             $image_path = $request->file('image')->store('public/restaurants');
             $restaurant->image = basename($image_path);;
         }
+        $restaurant->description = $request->input('description');
+        $restaurant->lowest_price = $request->input('lowest_price');
+        $restaurant->highest_price = $request->input('highest_price');
+        $restaurant->postal_code = $request->input('postal_code');
+        $restaurant->address = $request->input('address');
+        $restaurant->opening_time = $request->input('opening_time');
+        $restaurant->closing_time = $request->input('closing_time');
+        $restaurant->seating_capacity = $request->input('seating_capacity');
         
-        $restaurant->update($request->all());
+        $restaurant->save();
 
         return redirect()->route('admin.restaurants.show', ['restaurant' => $restaurant->id])->with('flash_message', '店舗を編集しました。');
     }
